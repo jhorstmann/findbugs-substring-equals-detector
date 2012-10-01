@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindbugsPlugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   		xsi:noNamespaceSchemaLocation="findbugsplugin.xsd"
+                pluginid="net.jhorstmann.findbugs.substringequals"
+                defaultenabled="true"
+                provider="Jörn Horstmann" 
+                website="http://jhorstmann.net/"
+                >
+    <Detector class="net.jhorstmann.findbugs.substringequals.SubstringEqualsDetector" reports="SSE_SUBSTRING_EQUALS,SSE_SUBSTRING_STARTS_WITH"/>
+    <BugPattern abbrev="SSE" type="SSE_SUBSTRING_EQUALS" category="JDK7_PERFORMANCE" />
+    <BugPattern abbrev="SSW" type="SSE_SUBSTRING_STARTS_WITH" category="JDK7_PERFORMANCE" />
+</FindbugsPlugin>

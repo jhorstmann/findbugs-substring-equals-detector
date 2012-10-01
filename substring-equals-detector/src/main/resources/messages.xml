@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MessageCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="messagecollection.xsd">
+    <Plugin>
+        <ShortDescription>Detects potential performance regressions due to removal of substring data sharing in JDK7u6</ShortDescription>
+        <Details><![CDATA[JDK7u6 and JDK8 removed the <tt>offset</tt> and <tt>count</tt> fields from <t>java.lang.String</t> which were used to allow multiple String instances to share the same backing character buffer.
+            This plugin detects potential performance regressions due to this change and suggests more efficient alternatives.
+            The change is described in <a href="http://mail.openjdk.java.net/pipermail/core-libs-dev/2012-May/010257.html">this post to the core-libs mailing list</a>.]]>
+        </Details>
+    </Plugin>
+    <BugCategory category="JDK7_PERFORMANCE">
+        <Description>Performance regressions due to removal of substring data sharing in JDK7u6</Description>
+        <Abbreviation>J7P</Abbreviation>
+        <Details>Performance regressions due to removal of substring data sharing in JDK7u6</Details>
+    </BugCategory>
+    <Detector class="net.jhorstmann.findbugs.substringequals.SubstringEqualsDetector">
+        <Details>Detects calls to String#substring followed by call to String#equals, String#equalsIgnoreCase or String#startsWith which can be replaced by more efficient alternatives</Details>
+    </Detector>
+    <BugPattern type="SSE_SUBSTRING_EQUALS">
+        <ShortDescription>Call to String#substring followed by call to String#equals can be replaced by String#regionMatches</ShortDescription>
+        <LongDescription>Call to String#substring followed by call to String#equals can be replaced by String#regionMatches</LongDescription>
+        <Details></Details>
+    </BugPattern>
+    <BugPattern type="SSE_SUBSTRING_STARTS_WITH">
+        <ShortDescription>Call to String#substring followed by call to String#startsWith can be replaced by String#startsWith with offset parameter</ShortDescription>
+        <LongDescription>Call to String#substring followed by call to String#startsWith can be replaced by String#startsWith with offset parameter</LongDescription>
+        <Details></Details>
+    </BugPattern>
+    <BugCode abbrev="SSE">Substring equals</BugCode>
+    <BugCode abbrev="SSW">Substring startsWith</BugCode>
+</MessageCollection>

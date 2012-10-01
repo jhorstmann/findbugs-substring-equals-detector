@@ -1,0 +1,21 @@
+In JDK7u6 and JDK8 the String class was changed to no longer share the backing
+array when creating substrings. According to the [post to the core-libs-dev
+mailing list][1] this should bring an overall performance improvement. There
+are however some situations like parsers or compilers where this change has a
+negative impact. [Oliver Gierke][2] [posted about one such case][3] in the
+spring framework where calls to `substring` were immediately followed by
+`startsWith`.
+
+The problematic code should be easily replaceable by calls to `regionMatches`
+or `startsWith(string, offset)`, but finding all instances of this call
+sequence manually would be very time-consuming. This search can be automated
+using a custom plugin for the [findbugs framework][4]. This little project uses
+the `OpcodeStackDetector` to track results of `substring` calls and detects
+when methods like `equals`, `equalsIgnoreCase` or `startWith` are called on
+these substrings.
+
+
+ [1]: http://mail.openjdk.java.net/pipermail/core-libs-dev/2012-May/010257.html
+ [2]: https://plus.google.com/111266412943874700770/posts
+ [3]: https://plus.google.com/111266412943874700770/posts/bXhY74hRgrD
+ [4]: http://findbugs.sourceforge.net/
